@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="E:\FINANCE\DATABASE\OPTIONS.MDF" Class="dbOptionsDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=(localdb)\v11.0;Initial Catalog=E:\FINANCE\DATABASE\OPTIONS.MDF;Integrated Security=True;Connect Timeout=30" SettingsObjectName="TestMarketData.Properties.Settings" SettingsPropertyName="E__FINANCE_DATABASE_OPTIONS_MDFConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.Stock" Member="Stocks">
+    <Type Name="Stock">
+      <Column Name="Ticker" Type="System.String" DbType="VarChar(20) NOT NULL" IsPrimaryKey="true" CanBeNull="false" />
+      <Column Name="Company" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="Sector" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="Industry" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="Market" Type="System.String" DbType="VarChar(2)" CanBeNull="true" />
+      <Column Name="DividendStart" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DividendCommentary" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="LastTrade" Type="System.Decimal" DbType="Decimal(18,4)" CanBeNull="true" />
+      <Column Name="AverageVolume" Type="System.Decimal" DbType="Decimal(24,4)" CanBeNull="true" />
+      <Column Name="MarketCap" Type="System.Decimal" DbType="Decimal(24,4)" CanBeNull="true" />
+      <Column Name="PriceEarningRatio" Type="System.Decimal" DbType="Decimal(24,4)" CanBeNull="true" />
+      <Column Name="EarningsPerShare" Type="System.Decimal" DbType="Decimal(24,4)" CanBeNull="true" />
+      <Column Name="DividendYield" Type="System.Decimal" DbType="Decimal(24,4)" CanBeNull="true" />
+      <Column Name="PriceBookRatio" Type="System.Decimal" DbType="Decimal(24,4)" CanBeNull="true" />
+      <Column Name="SharesOutstanding" Type="System.Decimal" DbType="Decimal(24,4)" CanBeNull="true" />
+      <Column Name="PayoutRatio" Type="System.Decimal" DbType="Decimal(24,4)" CanBeNull="true" />
+      <Column Name="TotalCurrentAssets" Type="System.Decimal" DbType="Decimal(24,2)" CanBeNull="true" />
+      <Column Name="TotalAssets" Type="System.Decimal" DbType="Decimal(24,2)" CanBeNull="true" />
+      <Column Name="TotalCurrentLiabilities" Type="System.Decimal" DbType="Decimal(24,2)" CanBeNull="true" />
+      <Column Name="TotalLiabilities" Type="System.Decimal" DbType="Decimal(24,2)" CanBeNull="true" />
+      <Column Name="LongTermDebt" Type="System.Decimal" DbType="Decimal(24,2)" CanBeNull="true" />
+      <Column Name="StockholderEquity" Type="System.Decimal" DbType="Decimal(24,2)" CanBeNull="true" />
+      <Column Name="ATMStrike" Type="System.Decimal" DbType="Decimal(24,4)" CanBeNull="true" />
+      <Column Name="ATMCallOpenInterest" Type="System.Decimal" DbType="Decimal(24,4)" CanBeNull="true" />
+      <Column Name="ATMPutOpenInterest" Type="System.Decimal" DbType="Decimal(24,4)" CanBeNull="true" />
+      <Column Name="DailyVolume" Type="System.Decimal" DbType="Decimal(24,2)" CanBeNull="true" />
+      <Column Name="OverrideCode" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="OverrideReason" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
+      <Column Name="LastUpdateSuccessful" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="[Ex-DividendDate]" Member="Ex_DividendDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="NextEarningsDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="NextEarningsTime" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
+      <Column Name="AnalystsOpinion" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="NakedOptions" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
+      <Column Name="IVPercentile" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="IVRank" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="PercentBB" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="PriceChange5Day" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="PriceChange10Day" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="PriceChange15Day" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Beta" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="Exchange" Type="System.String" DbType="VarChar(8) NOT NULL" CanBeNull="false" />
+      <Column Name="PrimExchange" Type="System.String" DbType="VarChar(8)" CanBeNull="true" />
+      <Column Name="SecType" Type="System.String" DbType="VarChar(6) NOT NULL" CanBeNull="false" />
+      <Column Name="FutureExpiry" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+    </Type>
+  </Table>
+</Database>

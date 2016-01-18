@@ -99,6 +99,12 @@ namespace TestMarketData
             //lbPrice.Text = price.ToString ("N3");
         }
 
+        /**********************************************************************
+        *
+        * Fetch the contracts that match
+        *
+        **********************************************************************/
+
         private Task<List<ContractDetail>> FetchContracts ()
         {
             var tcs = new TaskCompletionSource<List<ContractDetail>> ();
@@ -141,7 +147,7 @@ namespace TestMarketData
                         Expiry = DateTime.ParseExact (d.expiry, format, CultureInfo.InvariantCulture);
                     }
 
-                    cd.Add (new ContractDetail (d.localSymbol, c.longName, Expiry, d.conId, d.strike, d.exchange));
+                    cd.Add (new ContractDetail (d.symbol, d.localSymbol, c.longName, Expiry, d.conId, d.strike, d.exchange, d.right));
                 }
             });
 
@@ -162,21 +168,7 @@ namespace TestMarketData
             /* Get the exchange
              * ---------------- */
 
-            string exchange = "";
-
-            using (dbOptionsDataContext dc = new dbOptionsDataContext ())
-            {
-                exchange = (from s in dc.Stocks
-                            where s.Ticker == tbTicker.Text
-                            select s.Exchange).FirstOrDefault ();
-                if (string.IsNullOrEmpty (exchange))
-                {
-                    exchange = "";
-//                    MessageBox.Show (string.Format ("failed to extract exchange for {0}", tbTicker.Text));
-
-//                    return tcs.Task;
-                }
-            }
+            string exchange = tbExchange.Text;
 
             axTws.errMsg += errhandler;
             axTws.contractDetailsEx += contracthandler;
@@ -204,8 +196,6 @@ namespace TestMarketData
 
                 m_Log.Log (ErrorLevel.logINF, string.Format ("contract: symbol:{0} secType:{1} exchange: {2} currency:{3} strike:{4} expiry: {5} right:{6}", 
                           contract.symbol, contract.secType, contract.exchange, contract.currency, contract.strike, contract.expiry, contract.right));
-
-
             }
             else if (sectype == "FUT")
             {
@@ -225,6 +215,16 @@ namespace TestMarketData
             {
                 contract.symbol = tbTicker.Text;
                 contract.secType = "STK";
+                contract.exchange = exchange;
+                contract.primaryExchange = "";
+                contract.currency = "USD";
+            }
+            else if (sectype == "OPT")
+            {
+                contract.symbol = tbTicker.Text;
+                contract.secType = "OPT";
+                contract.expiry = tbExpiry.Text;
+                contract.strike = strike;
                 contract.exchange = exchange;
                 contract.primaryExchange = "";
                 contract.currency = "USD";
@@ -410,7 +410,7 @@ namespace TestMarketData
                     return;
                 }
                 Stock s = new Stock ();
-                s.Ticker = cd.LocalSymbol;
+                s.Ticker = cd.Ticker;
                 s.Company = cd.LongName;
                 s.Exchange = cd.Exchange;
                 s.SecType = (string) lbSecType.SelectedValue;
@@ -427,6 +427,67 @@ namespace TestMarketData
                 return;
 
             }
+        }
+
+        /*************************************************************
+        * 
+        * Selected index in listbox has changed
+        *
+        *************************************************************/
+
+        private void lbItems_SelectedIndexChanged (object sender, EventArgs e)
+        {
+            ContractDetail cd = (ContractDetail) lbItems.SelectedItem;
+            if (cd != null)
+            {
+                lbSymbol.Text = cd.Ticker;
+                lbLocalsymbol.Text = cd.LocalSymbol;
+                lbConid.Text = cd.ConId.ToString ();
+                lbExchange.Text = cd.Exchange;
+                if (cd.bIfCall == null)
+                {
+                    lbRight.Text = "";
+                }
+                else if ((bool) cd.bIfCall)
+                {
+                    lbRight.Text = "Call";
+                }
+                else
+                {
+                    lbRight.Text = "Put";
+                }
+                if (cd.Expiry == null)
+                {
+                    lbExpiry.Text = "";
+                }
+                else
+                {
+                    lbExpiry.Text = ((DateTime) cd.Expiry).ToString ("yyyy-MM-dd");
+                }
+            }
+        }
+
+        /****************************************************
+        *
+        * Ticker focus has been lost
+        *
+        *****************************************************/
+
+        private void tbTicker_Leave (object sender, EventArgs e)
+        {
+            string exchange;
+
+            using (dbOptionsDataContext dc = new dbOptionsDataContext ())
+            {
+                exchange = (from s in dc.Stocks
+                            where s.Ticker == tbTicker.Text
+                            select s.Exchange).FirstOrDefault ();
+                if (string.IsNullOrEmpty (exchange))
+                {
+                    exchange = "";
+                }
+            }
+            tbExchange.Text = exchange;
         }
     }
 }

@@ -8,22 +8,34 @@ namespace TestMarketData
 {
     class ContractDetail
     {
+        public string Ticker { get; set; }
         public string LocalSymbol { get; set; }
         public string LongName { get; set; }
         public DateTime? Expiry { get; set; }
         public int ConId { get; set; }
         public double Strike { get; set; }
         public string Exchange { get; set; }
+        public bool? bIfCall { get; set; }
 
 
-        public ContractDetail (string local_symbol, string longname, DateTime? expiry, int conid, double strike, string exchange)
+        public ContractDetail (string ticker, string local_symbol, string longname, DateTime? expiry, int conid, double strike, string exchange, string right)
         {
+            Ticker = ticker;
             LocalSymbol = local_symbol;
             LongName = longname;
             ConId = conid;
             Expiry = expiry;
             Strike = strike;
             Exchange = exchange;
+            bIfCall = null;
+            if (right == "C")
+            {
+                bIfCall = true;
+            }
+            else if (right == "P")
+            {
+                bIfCall = false;
+            }
         }
         public override string ToString ()
         {

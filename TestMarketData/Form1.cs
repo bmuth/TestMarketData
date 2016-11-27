@@ -30,6 +30,7 @@ namespace TestMarketData
             sectypes.Add (new Tuple<string, string> ("Options", "OPT"));
             sectypes.Add (new Tuple<string, string> ("Futures", "FUT"));
             sectypes.Add (new Tuple<string, string> ("Future Options", "FOP"));
+            sectypes.Add (new Tuple<string, string> ("Indices", "IND"));
 
             lbSecType.DataSource = sectypes;
             lbSecType.DisplayMember = "Item1";
@@ -196,6 +197,16 @@ namespace TestMarketData
 
                 m_Log.Log (ErrorLevel.logINF, string.Format ("contract: symbol:{0} secType:{1} exchange: {2} currency:{3} strike:{4} expiry: {5} right:{6}", 
                           contract.symbol, contract.secType, contract.exchange, contract.currency, contract.strike, contract.expiry, contract.right));
+            }
+            else if (sectype == "IND")
+            {
+                contract.symbol = tbTicker.Text;
+                contract.secType = "IND";
+                contract.exchange = exchange;
+                contract.primaryExchange = "";
+                contract.currency = "USD";
+                //contract.expiry = tbExpiry.Text;
+                contract.strike = 0.0;
             }
             else if (sectype == "FUT")
             {
@@ -391,30 +402,77 @@ namespace TestMarketData
 
             using (dbOptionsDataContext dc = new dbOptionsDataContext ())
             {
-                var query = (from s1 in dc.Stocks
-                             where s1.Ticker == cd.LocalSymbol
-                             select s1).SingleOrDefault ();
+                /* for futures, save the LocalSymbol as the ticker, (ES -> ESH6 for example)
+                   For everything else, save the Ticker as the Ticker 
+                   This means Future Options would be stored only as "ES" */
 
-                if (query != null)
+                string sectype = (string) lbSecType.SelectedValue;
+
+                if (sectype == "FUT")
                 {
-                    query.Company = cd.LongName;
-                    query.Exchange = cd.Exchange;
-                    try
+                    var query = (from s1 in dc.Stocks
+                                 where s1.Ticker == cd.LocalSymbol
+                                 select s1).SingleOrDefault ();
+
+                    if (query != null)
                     {
-                        dc.SubmitChanges ();
+                        query.Company = cd.LongName;
+                        query.Exchange = cd.Exchange;
+                        try
+                        {
+                            dc.SubmitChanges ();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show (string.Format ("Failed to update existing record {0}. {1}", cd.ToString (), ex.Message));
+                        }
+                        return;
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show (string.Format ("Failed to update existing record {0}. {1}", cd.ToString (), ex.Message));
-                    }
-                    return;
                 }
+                else
+                {
+                    var query = (from s1 in dc.Stocks
+                                 where s1.Ticker == cd.Ticker
+                                 select s1).SingleOrDefault ();
+
+                    if (query != null)
+                    {
+                        query.Company = cd.LongName;
+                        query.Exchange = cd.Exchange;
+                        try
+                        {
+                            dc.SubmitChanges ();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show (string.Format ("Failed to update existing record {0}. {1}", cd.ToString (), ex.Message));
+                        }
+                        return;
+                    }
+
+                }
+
                 Stock s = new Stock ();
-                s.Ticker = cd.Ticker;
+
+#if NEW
+                if (sectype == "FUT")
+                {
+                    s.Ticker = cd.LocalSymbol;
+                }
+                else
+                {
+                    s.Ticker = cd.Ticker;
+                }
+#else
+                s.Ticker = cd.LocalSymbol;
+#endif
                 s.Company = cd.LongName;
                 s.Exchange = cd.Exchange;
                 s.SecType = (string) lbSecType.SelectedValue;
-                s.FutureExpiry = cd.Expiry;
+                if (s.SecType != "STK" && s.SecType != "FOP")
+                {
+                    s.FutureExpiry = cd.Expiry;
+                }
                 dc.Stocks.InsertOnSubmit (s);
                 try
                 {
@@ -444,6 +502,8 @@ namespace TestMarketData
                 lbLocalsymbol.Text = cd.LocalSymbol;
                 lbConid.Text = cd.ConId.ToString ();
                 lbExchange.Text = cd.Exchange;
+                lbStrike.Text = cd.Strike.ToString ();
+
                 if (cd.bIfCall == null)
                 {
                     lbRight.Text = "";

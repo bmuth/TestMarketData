@@ -62,6 +62,8 @@
             this.lbExchange = new System.Windows.Forms.Label();
             this.tbExchange = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
+            this.lbStrike = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.axTws)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -213,7 +215,8 @@
             "Stock",
             "Options",
             "Futures",
-            "Future Options"});
+            "Future Options",
+            "Indices"});
             this.lbSecType.Location = new System.Drawing.Point(23, 111);
             this.lbSecType.Name = "lbSecType";
             this.lbSecType.Size = new System.Drawing.Size(120, 30);
@@ -371,11 +374,31 @@
             this.label13.TabIndex = 35;
             this.label13.Text = "Exchange";
             // 
+            // lbStrike
+            // 
+            this.lbStrike.AutoSize = true;
+            this.lbStrike.Location = new System.Drawing.Point(284, 445);
+            this.lbStrike.Name = "lbStrike";
+            this.lbStrike.Size = new System.Drawing.Size(16, 13);
+            this.lbStrike.TabIndex = 38;
+            this.lbStrike.Text = "   ";
+            // 
+            // label15
+            // 
+            this.label15.Location = new System.Drawing.Point(213, 445);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(65, 13);
+            this.label15.TabIndex = 37;
+            this.label15.Text = "Strike:";
+            this.label15.TextAlign = System.Drawing.ContentAlignment.TopRight;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(372, 505);
+            this.Controls.Add(this.lbStrike);
+            this.Controls.Add(this.label15);
             this.Controls.Add(this.tbExchange);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.lbExchange);
@@ -450,6 +473,8 @@
         private System.Windows.Forms.Label lbExchange;
         private System.Windows.Forms.TextBox tbExchange;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label lbStrike;
+        private System.Windows.Forms.Label label15;
     }
 }
 

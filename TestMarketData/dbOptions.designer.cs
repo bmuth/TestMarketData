@@ -140,11 +140,9 @@ namespace TestMarketData
 		
 		private System.Nullable<System.DateTime> _Ex_DividendDate;
 		
-		private System.Nullable<System.DateTime> _NextEarningsDate;
+		private string _NextEarnings;
 		
-		private string _NextEarningsTime;
-		
-		private System.Nullable<double> _AnalystsOpinion;
+		private string _AnalystsRating;
 		
 		private System.Nullable<bool> _NakedOptions;
 		
@@ -234,12 +232,10 @@ namespace TestMarketData
     partial void OnLastUpdateSuccessfulChanged();
     partial void OnEx_DividendDateChanging(System.Nullable<System.DateTime> value);
     partial void OnEx_DividendDateChanged();
-    partial void OnNextEarningsDateChanging(System.Nullable<System.DateTime> value);
-    partial void OnNextEarningsDateChanged();
-    partial void OnNextEarningsTimeChanging(string value);
-    partial void OnNextEarningsTimeChanged();
-    partial void OnAnalystsOpinionChanging(System.Nullable<double> value);
-    partial void OnAnalystsOpinionChanged();
+    partial void OnNextEarningsChanging(string value);
+    partial void OnNextEarningsChanged();
+    partial void OnAnalystsRatingChanging(string value);
+    partial void OnAnalystsRatingChanged();
     partial void OnNakedOptionsChanging(System.Nullable<bool> value);
     partial void OnNakedOptionsChanged();
     partial void OnIVPercentileChanging(System.Nullable<double> value);
@@ -871,62 +867,42 @@ namespace TestMarketData
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NextEarningsDate", DbType="Date")]
-		public System.Nullable<System.DateTime> NextEarningsDate
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NextEarnings", DbType="VarChar(20)")]
+		public string NextEarnings
 		{
 			get
 			{
-				return this._NextEarningsDate;
+				return this._NextEarnings;
 			}
 			set
 			{
-				if ((this._NextEarningsDate != value))
+				if ((this._NextEarnings != value))
 				{
-					this.OnNextEarningsDateChanging(value);
+					this.OnNextEarningsChanging(value);
 					this.SendPropertyChanging();
-					this._NextEarningsDate = value;
-					this.SendPropertyChanged("NextEarningsDate");
-					this.OnNextEarningsDateChanged();
+					this._NextEarnings = value;
+					this.SendPropertyChanged("NextEarnings");
+					this.OnNextEarningsChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_NextEarningsTime", DbType="VarChar(40)")]
-		public string NextEarningsTime
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AnalystsRating", DbType="VarChar(10)")]
+		public string AnalystsRating
 		{
 			get
 			{
-				return this._NextEarningsTime;
+				return this._AnalystsRating;
 			}
 			set
 			{
-				if ((this._NextEarningsTime != value))
+				if ((this._AnalystsRating != value))
 				{
-					this.OnNextEarningsTimeChanging(value);
+					this.OnAnalystsRatingChanging(value);
 					this.SendPropertyChanging();
-					this._NextEarningsTime = value;
-					this.SendPropertyChanged("NextEarningsTime");
-					this.OnNextEarningsTimeChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_AnalystsOpinion", DbType="Float")]
-		public System.Nullable<double> AnalystsOpinion
-		{
-			get
-			{
-				return this._AnalystsOpinion;
-			}
-			set
-			{
-				if ((this._AnalystsOpinion != value))
-				{
-					this.OnAnalystsOpinionChanging(value);
-					this.SendPropertyChanging();
-					this._AnalystsOpinion = value;
-					this.SendPropertyChanged("AnalystsOpinion");
-					this.OnAnalystsOpinionChanged();
+					this._AnalystsRating = value;
+					this.SendPropertyChanged("AnalystsRating");
+					this.OnAnalystsRatingChanged();
 				}
 			}
 		}

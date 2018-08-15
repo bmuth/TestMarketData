@@ -32,9 +32,8 @@
       <Column Name="OverrideReason" Type="System.String" DbType="Text" CanBeNull="true" UpdateCheck="Never" />
       <Column Name="LastUpdateSuccessful" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="[Ex-DividendDate]" Member="Ex_DividendDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
-      <Column Name="NextEarningsDate" Type="System.DateTime" DbType="Date" CanBeNull="true" />
-      <Column Name="NextEarningsTime" Type="System.String" DbType="VarChar(40)" CanBeNull="true" />
-      <Column Name="AnalystsOpinion" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="NextEarnings" Type="System.String" DbType="VarChar(20)" CanBeNull="true" />
+      <Column Name="AnalystsRating" Type="System.String" DbType="VarChar(10)" CanBeNull="true" />
       <Column Name="NakedOptions" Type="System.Boolean" DbType="Bit" CanBeNull="true" />
       <Column Name="IVPercentile" Type="System.Double" DbType="Float" CanBeNull="true" />
       <Column Name="IVRank" Type="System.Double" DbType="Float" CanBeNull="true" />
